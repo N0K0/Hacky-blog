@@ -3,17 +3,17 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>http://about.hacky.software/categories/</loc>
+    <loc>https://about.hacky.software/</loc>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>http://about.hacky.software/tags/</loc>
+    <loc>https://about.hacky.software/</loc>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>http://about.hacky.software/</loc>
+    <loc>https://about.hacky.software/tags/</loc>
     <priority>0</priority>
   </url>
   
