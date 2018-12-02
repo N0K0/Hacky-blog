@@ -1,6 +1,6 @@
 baseURL = "https://about.hacky.software"
 languageCode = "en-us"
-title = "Hugo Hermit"
+title = "Hacky.Software"
 theme = "hermit"
 # enableGitInfo = true
 pygmentsCodefences  = true
@@ -13,7 +13,7 @@ enableEmoji = true  # Shorthand emojis in content files - https://gohugo.io/func
 # disqusShortname = "yourdiscussshortname"
 
 [author]
-  name = "John Doe"
+  name = "Nikolas Papaioannou"
 
 [blackfriday]
   hrefTargetBlank = true
@@ -29,7 +29,7 @@ enableEmoji = true  # Shorthand emojis in content files - https://gohugo.io/func
   dateformNumTime = "2006-01-02 15:04 -0700"
 
   # themeColor = "#494f5c"  # Theme color in meta tags.
-  homeSubtitle = "A minimal and fast theme for Hugo."
+  homeSubtitle = "Play stupid games, win stupid prizes"
   footerCopyright = ' &#183; <a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener">CC BY-NC 4.0</a>'
   # gitUrl = "https://github.com/Someone/SomeRepo/commit/" # Prefix of link to the git commit detail page. GitInfo must be enabled.
   justifyContent = false  # Set "text-align: justify" to .content, requires extended version of Hugo
@@ -39,18 +39,13 @@ enableEmoji = true  # Shorthand emojis in content files - https://gohugo.io/func
   # Check https://github.com/Track3/hermit#social-icons for more info.
   [[params.social]]
     name = "twitter"
-    url = "https://twitter.com/"
-
-  [[params.social]]
-    name = "instagram"
-    url = "https://instagram.com/"
+    url = "https://twitter.com/_n0k0"
 
   [[params.social]]
     name = "github"
-    url = "https://github.com/"
+    url = "https://github.com/n0k0"
 
 [menu]
-
   [[menu.main]]
     name = "Posts"
     url = "/posts/"
@@ -58,19 +53,5 @@ enableEmoji = true  # Shorthand emojis in content files - https://gohugo.io/func
 
   [[menu.main]]
     name = "About"
-    url = "/about-hugo/"
+    url = "/about-hacky/"
     weight = 20
-
-[caches]
-    [caches.getjson]
-    dir = ":cacheDir/:project"
-    maxAge = -1
-    [caches.getcsv]
-    dir = ":cacheDir/:project"
-    maxAge = -1
-    [caches.images]
-    dir = ":resourceDir/_gen"
-    maxAge = -1
-    [caches.assets]
-    dir = ":resourceDir/_gen"
-    maxAge = -1

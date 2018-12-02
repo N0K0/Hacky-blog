@@ -1,16 +1,14 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Hugo Hermit</title>
-    <link>https://about.hacky.software/</link>
-    <description>Recent content on Hugo Hermit</description>
+    <title>Posts on Hugo Hermit</title>
+    <link>https://about.hacky.software/posts/</link>
+    <description>Recent content in Posts on Hugo Hermit</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright>
     <lastBuildDate>Sat, 01 Dec 2018 21:01:23 +0100</lastBuildDate>
-    
-	<atom:link href="https://about.hacky.software/index.xml" rel="self" type="application/rss+xml" />
-    
+    <atom:link href="https://about.hacky.software/posts/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>First Post</title>
@@ -19,6 +17,14 @@
       
       <guid>https://about.hacky.software/posts/first-post/</guid>
       <description>test test test test</description>
+      <content type="html"><![CDATA[
+
+<h1 id="test">test</h1>
+
+<p>test
+test
+test</p>
+]]></content>
     </item>
     
   </channel>
