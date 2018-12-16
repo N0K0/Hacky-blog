@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://about.hacky.software/about-hacky/</loc>
+    <lastmod>2018-12-02T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://about.hacky.software/posts/first-post/</loc>
     <lastmod>2018-12-01T21:01:23+01:00</lastmod>
   </url>
@@ -14,7 +19,7 @@
   
   <url>
     <loc>https://about.hacky.software/</loc>
-    <lastmod>2018-12-01T21:01:23+01:00</lastmod>
+    <lastmod>2018-12-02T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
