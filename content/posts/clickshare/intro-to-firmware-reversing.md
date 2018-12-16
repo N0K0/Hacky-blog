@@ -239,6 +239,7 @@ Dropbear is a tiny SSH server which is used for its tiny footprint.
 In the config we got the following snippet:
 
 {{< highlight sh "linenostart=9,linenos=inline" >}}
+[...]
 start() {
 	DROPBEAR_ARGS="$DROPBEAR_ARGS -R"
 
@@ -266,6 +267,41 @@ start() {
 		--exec /usr/sbin/dropbear -- $DROPBEAR_ARGS
 	[ $? = 0 ] && echo "OK" || echo "FAIL"
 }
+[...]
 {{< /highlight >}}
 
-This is bad news unfortunalty... The `-R` from line 10 means that each box may get an unique signarture on each boot unless the `/etc/dropbear/` is mounted up fast enough
+This is bad news unfortunalty... The `-R` from line 10 means that each box may get an unique signarture on each boot unless the `/etc/dropbear/` is mounted (given that my testing with Dropbear is correct)
+
+As for lighthttp:
+
+
+{{< highlight sh >}}
+PATH=/sbin:/bin:/usr/sbin:/usr/bin
+DAEMON=/usr/sbin/lighttpd
+NAME=S50lighttpd
+DESC="Lighttpd Web Server"
+OPTS="-f /etc/lighttpd.conf"
+PIDFILE="/var/run/lighttpd.pid"
+
+UPLOAD_DIR=/tmp/uploads
+
+case "$1" in
+  start)
+	echo -n "Starting $DESC: "
+	mkdir -p $UPLOAD_DIR
+	chmod a+w $UPLOAD_DIR
+	start-stop-daemon --start -m -p $PIDFILE -x "$DAEMON" -- $OPTS
+	echo "$NAME."
+	;;
+[...]
+{{< /highlight >}}
+
+
+With a config that is more or less comletely default.
+From the config we can see that the document root is over at `server.document-root    = "/www/pages/"`
+
+# Summation
+
+* We know we got a dropbear SSH server, and a lighttpd server
+* We got some host keys in `/etc/dropbear`
+* We know a default default password `admin:admin`
