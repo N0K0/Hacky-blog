@@ -34,12 +34,135 @@ For this setup i need the following:
 
 *Note: I have not tried setting this up in a virtual machine.*
 
+# Installation
+
+## LimeSDR Suite
+*A natural start is fixing with the LimeSDR system itself*
+
+
+*Lime Suite is a collection of software supporting several hardware platforms including the LimeSDR,
+drivers for the LMS7002M transceiver RFIC, and other tools for developing with LMS7-based hardware. 
+Installing the Lime Suite enables many SDR applications such as GQRX to work with supported hardware through the bundled SoapySDR support module.*
+
+```
+sudo dnf install git cmake libsqlite3x-devel gcc-c++ libusb-devel libi2c-devel SoapySDR-devel freeglut-devel
+```
+
+And the to make and install LimeSuite
+```
+cd /tmp/
+git clone https://github.com/myriadrf/LimeSuite.git
+cd LimeSuite
+mkdir build
+cd build
+cmake ..
+make -j `nproc`
+sudo make install
+```
+
+If you wish for the LimeSDR to be available for all users and not just root:
+
+Add the following file to `/etc/udev/rules.d/64-limesuite.rules`
+```
+SUBSYSTEM=="usb", ATTR{idVendor}=="04b4", ATTR{idProduct}=="8613", SYMLINK+="stream-%k", MODE="666"
+SUBSYSTEM=="usb", ATTR{idVendor}=="04b4", ATTR{idProduct}=="00f1", SYMLINK+="stream-%k", MODE="666"
+SUBSYSTEM=="usb", ATTR{idVendor}=="0403", ATTR{idProduct}=="601f", SYMLINK+="stream-%k", MODE="666"
+SUBSYSTEM=="usb", ATTR{idVendor}=="1d50", ATTR{idProduct}=="6108", SYMLINK+="stream-%k", MODE="666"
+```
+
+And to finish up reload the rules
+```
+udevadm control --reload-rules
+udevadm trigger
+```
+
+
+When this is setup you should run a quick self test:  
+https://wiki.myriadrf.org/Testing_the_LimeSDR#Testing_the_LimeSDR_Mini  
+Basically just run `LimeQuickTest --no-gui`
+
+
+## GNU Radio Companion
+*For some reason an application with __Radio Companion__ in the title seems reasonable to have*
+
+For GNU Radio things are easy peezy! Just install the one from the default repository <3
+
+```
+sudo dnf install gnuradio
+```
+
+After this install we would still not be able to use our LimeSDR Mini, we still need some add-ons to be able to interact with it.
+
+### GNU Radio Companion Add-ons
+
+We are going to install two add-on first one is so that we can use LimeSDR as a source for GRC, and a add-on which implements the GSM support that we need.
+First packages is `gr-limesdr` add-on, the second one is the `gr-gsm`. 
+**NOTE:** the gr-gsm version we need is the one from MyriadFM (the creators of the LimeSDR) which supports the Lime. 
+The compatibility patch has unfortunately not been upstreamed yet. Check out the following issue for updates:  
+https://github.com/ptrkrysik/gr-gsm/issues/393
+
+
+#### gr-limesdr
+
+Installing packages
+
+```
+dnf install git cmake boost-devel swig
+```
+
+
+And compile and install what we need
+
+```
+cd /tmp/
+git clone https://github.com/myriadrf/gr-limesdr
+cd gr-limesdr
+mkdir build
+cd build
+cmake ..
+make -j 4
+sudo make install
+```
+
+#### gr-gsm
+
+Installing packages
+```
+dnf install git cmake libsqlite3x-devel gcc-c++ libtool boost-devel swig libosmocore-devel cppunit-devel gnuradio-devel gr-osmosdr octave fltk-devel SoapySDR-devel wxGTK3-devel mingw64-wxWidgets3
+```
+
+And compile and install what we need
+```
+cd /tmp/
+git clone https://gitlab.com/myriadrf/gr-gsm.git
+cd gr-gsm
+mkdir build
+cd build
+cmake ..
+make -j 4
+sudo make install
+```
+
+
+## Adding it all together
+_GNU Radio ✅ LimeSDR software ✅ gr\_gsm ✅ gr\_limesdr ✅_  
+_Ready to go!_
+
+Sweet! Now we got all the packages we need. Just to verify we need to open GRC and look for the following blocks in the right hand pane:
+
+![GRC in action](/images/grc.png)
+
+So now we can use our SDR as a source and we got the modules 
+
 
 # Whats next?
 
 There is two things i want to look more into.
+What is possible to do with LTE without 
 
-1) What can be done with LTE? Somebody need to create something to fiddle with LTE on the LimeSDR
+## What about LTE
+What can be done with LTE?
+
 2) Make it so that our Simple IMSI script can listen to multiple channels at once. The Lime can easily listen to four or five channels at once.
 So it should be possible to make the 
 
