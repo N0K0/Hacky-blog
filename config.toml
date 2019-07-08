@@ -35,6 +35,8 @@ enableEmoji = false  # Shorthand emojis in content files - https://gohugo.io/fun
   justifyContent = false  # Set "text-align: justify" to .content, requires extended version of Hugo
   # bgImg = ""  #  Homepage background-image URL
 
+  commento = true
+
   # Social Icons
   # Check https://github.com/Track3/hermit#social-icons for more info.
   [[params.social]]

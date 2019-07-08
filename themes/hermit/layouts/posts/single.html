@@ -45,7 +45,11 @@
 			{{- end }}
 		</div>
 		{{- with .Site.DisqusShortname }}
-		{{ partialCached "disqus.html" . }}
+			{{ partialCached "disqus.html" . }}
+		{{- end }}
+
+		{{- with .Site.Params.Commento }}
+			{{ partialCached "commento.html" . }}
 		{{- end }}
 	</main>
 {{ end }}
