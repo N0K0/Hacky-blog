@@ -1,6 +1,7 @@
 ---
 title: "Setting up an GSM sniffer with LimeSDR mini on Fedora 30"
 date: 2019-06-29T18:00:00
+toc: true
 ---
 
 # Intro
@@ -152,7 +153,7 @@ Sweet! Now we got all the packages we need. Just to verify we need to open GRC a
 
 ![GRC in action](/images/grc.png)
 
-So now we can use our SDR as a source and we got the modules 
+So now we can use our SDR as a source and we got the modules needed to parse the GSM data going over the airwaves
 
 
 # Whats next?
