@@ -1,4 +1,4 @@
-baseURL = "https://about.hacky.software"
+baseURL = "https://hacky.software"
 languageCode = "en-us"
 title = "Hacky.Software"
 theme = "hermit"
