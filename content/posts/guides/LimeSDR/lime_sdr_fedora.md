@@ -14,7 +14,7 @@ After that plan was scrapped i moved over to the next technology phones tend to 
 So i bought myself a [AWUS1900](https://www.alfa.com.tw/service_1_detail/15.htm) from Alfa Network.
 The idea ended with me setting up a system for monitoring devices with Kismet and a metric server and more and let it run for a week in the locale of choice.
 
-I ended up with waaay too much data. Apparently _500 000_ devices has been broadcasting in the one week... For me its sounds impossible but i don't know.
+I ended up with way too much data. Apparently _500 000_ devices has been broadcasting in the one week... For me its sounds impossible but i don't know.
 Further testing with Wifi was abruptly stopped when the dongle died :(
 So with my money refunded for the Wifi dongle i figured it would be way more fun testing something new instead of screwing around more with Wifi.
 
@@ -153,7 +153,31 @@ Sweet! Now we got all the packages we need. Just to verify we need to open GRC a
 
 ![GRC in action](/images/grc.png)
 
-So now we can use our SDR as a source and we got the modules needed to parse the GSM data going over the airwaves
+So now we can use our SDR as a source and we got the modules needed to parse the GSM data going over the airwaves.
+Next up is actually finding some GSM traffic and fetch some datagrams!
+
+What you installed the grgsm packet you also installed two GRC programs which are quite useful.
+Unfortunatly like with everything else we are going to need a tweak.. 
+Even tough we downloaded and installed gr_gsm from MyriadRF we are still installing a version of the tools which is based on the upstream gr_gsm. 
+That is, its using the wrong type of radio source! 
+
+I must say, it felt like i knew what i was doing when i figured out how to fix the program 😎
+
+### Tweaking the GRC programs
+
+**FILL OUT**
+
+So here is a image of the graph that makes the gr_
+
+# So what really is GSM?
+*The Global System for Mobile Communications (GSM) is a standard developed by the European Telecommunications Standards Institute (ETSI)
+ to describe the protocols for second-generation (2G) digital cellular networks used by mobile devices such as mobile phones and tablets.*
+
+Basically its the way our phones talked to the network between the 1990s ans 2010ish.
+Its still used by quite a few phones as an fallback protocol for when 4G and 3G fails, 
+fortunately more and more phones prohibit the usage of GSM due to weaknesses found in the protocol.
+
+
 
 
 # Whats next?
@@ -173,6 +197,7 @@ So it should be possible to make the
 
 Since i've been running this setup on a machine i tend to reinstall every couple of weeks i ended up setting up a couple
 of Ansible scripts. It worked last time i ran it ¯\\\_(ツ)\_/¯
+I pinkyswear that i'll compress the filestructure to only what we need at some point
 
 Fun fact: It's actually the first Ansible roles i've made. Ever.
 
