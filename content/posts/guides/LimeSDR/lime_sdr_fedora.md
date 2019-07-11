@@ -151,15 +151,15 @@ _Ready to go!_
 
 Sweet! Now we got all the packages we need. Just to verify we need to open GRC and look for the following blocks in the right hand pane:
 
-![GRC in action](/images/grc.png)
+![GRC in action](/images/LimeSDR/grc.png)
 
 So now we can use our SDR as a source and we got the modules needed to parse the GSM data going over the airwaves.
 Next up is actually finding some GSM traffic and fetch some datagrams!
 
-What you installed the grgsm packet you also installed two GRC programs which are quite useful.
-Unfortunatly like with everything else we are going to need a tweak.. 
+What you installed the grgsm packet you also installed a couple of GRC programs which are quite useful.
+Unfortunately like with everything else we are going to need a tweak.. 
 Even tough we downloaded and installed gr_gsm from MyriadRF we are still installing a version of the tools which is based on the upstream gr_gsm. 
-That is, its using the wrong type of radio source! 
+That is, its using the wrong type of radio source! But not always... More on that later.
 
 I must say, it felt like i knew what i was doing when i figured out how to fix the program 😎
 
@@ -167,7 +167,7 @@ I must say, it felt like i knew what i was doing when i figured out how to fix t
 
 **FILL OUT**
 
-So here is a image of the graph that makes the gr_
+So here is a image of the graph that makes the g
 
 # So what really is GSM?
 *The Global System for Mobile Communications (GSM) is a standard developed by the European Telecommunications Standards Institute (ETSI)
@@ -177,8 +177,17 @@ Basically its the way our phones talked to the network between the 1990s ans 201
 Its still used by quite a few phones as an fallback protocol for when 4G and 3G fails, 
 fortunately more and more phones prohibit the usage of GSM due to weaknesses found in the protocol.
 
+GSM has a couple of possible frequency bands which is in use where the two most popular om global basis must be the
+GSM900 and GSM1800 bands.
 
+|  Band   | Device -> Tower | Tower -> Device |
+|---------|-----------------|-----------------|
+| GSM900  | 890 - 915 MHz   | 935 - 960 MHz   |
+| GSM1800 | 1710 - 1785 MHz | 1805 - 1880 MHz |
 
+We also got a bunch of variations like [GSM-R](http://en.wikipedia.org/wiki/GSM-R), [E-GSM](https://en.wikipedia.org/wiki/GSM_frequency_bands#E-GSM)
+
+The full list can be found here: [GMS_frequency_bands](https://en.wikipedia.org/wiki/GSM_frequency_bands)
 
 # Whats next?
 
