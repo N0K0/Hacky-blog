@@ -21,3 +21,11 @@
 .commento-root input[type="text"], .commento-root textarea {
   color: inherit;
 }
+
+pre {
+  overflow-x: auto;
+}
+pre code {
+  overflow-wrap: normal;
+  white-space: pre;
+}

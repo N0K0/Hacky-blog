@@ -4,28 +4,29 @@ date: 2019-06-29T18:00:00
 toc: true
 ---
 
-**All the data gathered doing the creation of this blogpost has been deleted, i do not feel like i have an adequate solution. 
+**All the data gathered during the creation of this blog post has been deleted, i do not feel like i have an adequate solution.**
 
 # Intro
 
 So for a while now i've had an idea where i can count the number of patrons in a [pub](https://cyb.no/) i hold near and dear to my heart.
 The first round of ideas was to check for Bluetooth devices and filter on whatever seems like an phone.
 
-I dropped that idea when i realized that phones generally do not have Bluetooth activated and visible.
+I dropped that idea when i realized that phones generally do not have Bluetooth activated/visible.
 After that plan was scrapped i moved over to the next technology phones tend to have. Namely Wifi.
 So i bought myself a [AWUS1900](https://www.alfa.com.tw/service_1_detail/15.htm) from Alfa Network.
 The idea ended with me setting up a system for monitoring devices with Kismet and a metric server and more and let it run for a week in the locale of choice.
 
-I ended up with way too much data. Apparently _500 000_ devices has been broadcasting in the one week... For me its sounds impossible but i don't know.
+I ended up with way too much data. Apparently _500 000_ devices had been broadcasting in that one week... For me its sounds impossible, but i don't know..
 Further testing with Wifi was abruptly stopped when the dongle died :(
 So with my money refunded for the Wifi dongle i figured it would be way more fun testing something new instead of screwing around more with Wifi.
 
 I ended up looking into SDRs! I was looking into LimeSDR and a HackRF and for some magical reason i opted for picking up the LimeSDR.
-The reason why is that specwise the LimeSDR is way better as basically everything, but unfortunately less supported by the community.
+The reason why is that specwise the LimeSDR is way better at basically everything, but unfortunately less supported by the community it seems.
 
-Anyways now you know how i ended up here, lets look into how we can get all our things to play nice together.
+Anyways now you know how i ended up here, lets look into how we can get all our things to play nice together as well as getting some tracking up and running.
 
-![picture of the setup](setup.png)
+
+![picture of the setup](/LimeSDR/setup.jpg)
 
 # The perquisites
 
@@ -47,12 +48,15 @@ For this setup i need the following:
 drivers for the LMS7002M transceiver RFIC, and other tools for developing with LMS7-based hardware. 
 Installing the Lime Suite enables many SDR applications such as GQRX to work with supported hardware through the bundled SoapySDR support module.*
 
-```
-sudo dnf install git cmake libsqlite3x-devel gcc-c++ libusb-devel libi2c-devel SoapySDR-devel freeglut-devel
-```
+{{< highlight sh >}}
+
+sudo dnf install git cmake libsqlite3x-devel gcc-c++ \
+    libusb-devel libi2c-devel SoapySDR-devel freeglut-devel
+{{< / highlight >}}
+
 
 And the to make and install LimeSuite
-```
+{{< highlight sh >}}
 cd /tmp/
 git clone https://github.com/myriadrf/LimeSuite.git
 cd LimeSuite
@@ -61,23 +65,26 @@ cd build
 cmake ..
 make -j `nproc`
 sudo make install
-```
+{{< / highlight >}}
+
 
 If you wish for the LimeSDR to be available for all users and not just root:
 
 Add the following file to `/etc/udev/rules.d/64-limesuite.rules`
-```
+{{< highlight sh >}}
 SUBSYSTEM=="usb", ATTR{idVendor}=="04b4", ATTR{idProduct}=="8613", SYMLINK+="stream-%k", MODE="666"
 SUBSYSTEM=="usb", ATTR{idVendor}=="04b4", ATTR{idProduct}=="00f1", SYMLINK+="stream-%k", MODE="666"
 SUBSYSTEM=="usb", ATTR{idVendor}=="0403", ATTR{idProduct}=="601f", SYMLINK+="stream-%k", MODE="666"
 SUBSYSTEM=="usb", ATTR{idVendor}=="1d50", ATTR{idProduct}=="6108", SYMLINK+="stream-%k", MODE="666"
-```
+{{< / highlight >}}
+
 
 And to finish up reload the rules
-```
+{{< highlight sh >}}
 udevadm control --reload-rules
 udevadm trigger
-```
+{{< / highlight >}}
+
 
 
 When this is setup you should run a quick self test:  
@@ -88,11 +95,12 @@ Basically just run `LimeQuickTest --no-gui`
 ## GNU Radio Companion
 *For some reason an application with __Radio Companion__ in the title seems reasonable to have*
 
-For GNU Radio things are easy peezy! Just install the one from the default repository <3
+For GNU Radio things are easy peasy! Just install the one from the default repository <3
 
-```
+{{< highlight sh >}}
 sudo dnf install gnuradio
-```
+{{< / highlight >}}
+
 
 After this install we would still not be able to use our LimeSDR Mini, we still need some add-ons to be able to interact with it.
 
@@ -109,14 +117,15 @@ https://github.com/ptrkrysik/gr-gsm/issues/393
 
 Installing packages
 
-```
+{{< highlight sh >}}
 dnf install git cmake boost-devel swig
-```
+{{< / highlight >}}
+
 
 
 And compile and install what we need
 
-```
+{{< highlight sh >}}
 cd /tmp/
 git clone https://github.com/myriadrf/gr-limesdr
 cd gr-limesdr
@@ -125,17 +134,24 @@ cd build
 cmake ..
 make -j 4
 sudo make install
-```
+{{< / highlight >}}
+
 
 #### gr-gsm
 
 Installing packages
-```
-dnf install git cmake libsqlite3x-devel gcc-c++ libtool boost-devel swig libosmocore-devel cppunit-devel gnuradio-devel gr-osmosdr octave fltk-devel SoapySDR-devel wxGTK3-devel mingw64-wxWidgets3
-```
+{{< highlight sh >}}
+
+dnf install git cmake libsqlite3x-devel gcc-c++ libtool \
+                boost-devel swig libosmocore-devel cppunit-devel \
+                gnuradio-devel gr-osmosdr octave fltk-devel SoapySDR-devel \
+                wxGTK3-devel mingw64-wxWidgets3
+{{< / highlight >}}
+
 
 And compile and install what we need
-```
+
+{{< highlight sh >}}
 cd /tmp/
 git clone https://gitlab.com/myriadrf/gr-gsm.git
 cd gr-gsm
@@ -144,8 +160,7 @@ cd build
 cmake ..
 make -j 4
 sudo make install
-```
-
+{{< / highlight >}}
 
 ## Adding it all together
 _GNU Radio ✅ LimeSDR software ✅ gr\_gsm ✅ gr\_limesdr ✅_  
@@ -156,9 +171,9 @@ Sweet! Now we got all the packages we need. Just to verify we need to open GRC a
 ![GRC in action](/LimeSDR/grc.png)
 
 So now we can use our SDR as a source and we got the modules needed to parse the GSM data going over the airwaves.
-Next up is actually finding some GSM traffic and fetch some datagrams!
+Next up is actually finding some GSM traffic and fetch some frames!
 
-What you installed the grgsm packet you also installed a couple of GRC programs which are quite useful.
+When you installed the grgsm packet you also installed a couple of GRC programs which are quite useful.
 Unfortunately like with everything else we are going to need a tweak.. 
 Even tough we downloaded and installed gr_gsm from MyriadRF we are still installing a version of the tools which is based on the upstream gr_gsm. 
 That is, its using the wrong type of radio source! But not always... More on that later.
@@ -168,17 +183,17 @@ I must say, it felt like i knew what i was doing when i figured out how to fix t
 ### Tweaking the GRC programs
 So here is a image of the graph that makes the grgsm_livemon
 
-![grgsm_livemon original](LimeSDR/grgsm_livemon_original.png)
+![grgsm_livemon original](/LimeSDR/grgsm_livemon_original.png)
 
 It's not really all that much we need to change to make the program work again. Simply change the source block (and maybe the samplerate)
 The resulting graph from the change looks like this:
 
-![grgsm_livemon limesdr](LimeSDR/grgsm_livemon_limesdr.png)
+![grgsm_livemon limesdr](/LimeSDR/grgsm_livemon_limesdr.png)
 
 If you are in a hurry you can take my version of the grc file from here:
 
-[LimeSDR/grgsm_livemon_limesdr.grc](LimeSDR/grgsm_livemon_limesdr.grc) (With GUI)  
-[LimeSDR/grgsm_livemon_limesdr_headless.grc](LimeSDR/grgsm_livemon_limesdr_headless.grc) (Without GUI)
+[grgsm_livemon_limesdr.grc](/LimeSDR/grgsm_livemon_limesdr.grc) (With GUI)  
+[grgsm_livemon_limesdr_headless.grc](/LimeSDR/grgsm_livemon_limesdr_headless.grc) (Without GUI)
 
 
 
@@ -208,7 +223,7 @@ Since i'm from Norway we are mainly using the GSM900 band for our phones and the
 So i know i'm in Norway, next step now is finding the frequencies in my area.
 There is a couple of different ways to do this. Like using SDRAngel and just poke around the spectrum like so:
 
-![grgsm_livemon limesdr](LimeSDR/SDRAngel_gsm.png)
+![grgsm_livemon limesdr](/LimeSDR/SDRAngel_gsm.png)
 
 Its quite fast since the LimeSDR can look at such an insane width at once. Normally you can't really see more than 2 MHz at once.
 
@@ -217,7 +232,8 @@ For some reason not explored it supports the Lime already...
 
 It works as follows:
 
-```
+{{< highlight sh >}}
+
 [n@mamluk hugo]$ grgsm_scanner --help
 Usage: grgsm_scanner: [options]
 
@@ -236,11 +252,13 @@ Options:
   -v, --verbose         If set, verbose information output is printed: ccch
                         configuration, cell ARFCN's, neighbour ARFCN's
   -d, --debug           Print additional debug messages
-```
+{{< / highlight >}}
+
 
 And a sample of its output:
 
-```
+{{< highlight sh >}}
+
 [n@mamluk hugo]$ grgsm_scanner -b GSM900
 
 ARFCN:    2, Freq:  935.4M, CID: 55181, LAC:  3804, MCC: 242, MNC:   2, Pwr: -71
@@ -265,7 +283,8 @@ ARFCN:   67, Freq:  948.4M, CID: 20087, LAC: 11901, MCC: 242, MNC:   1, Pwr: -73
 ARFCN:   71, Freq:  949.2M, CID: 20088, LAC: 11901, MCC: 242, MNC:   1, Pwr: -82
 ARFCN:   72, Freq:  949.4M, CID: 20033, LAC: 11901, MCC: 242, MNC:   1, Pwr: -72
 ARFCN:  122, Freq:  959.4M, CID:  3243, LAC: 11901, MCC: 242, MNC:   1, Pwr: -51
-```
+{{< / highlight >}}
+
 
 We are getting quite a bit of information here right now, but out focus is the `Freq` and `Pwr` fields-
 Since this is just a simple demo i want to single out the one channel with the highest power, namely the one located at `937.2M`.
@@ -277,7 +296,7 @@ In the GUI we can see an graph of where there is signal. Simple adjust the Frequ
 
 ![grgsm_livemon in action](/LimeSDR/grgsm_livemon_gui.png)
 
-What is happening in the background while grgsm_livemon is running is that its parting the datastream from the gsm network, 
+What is happening in the background while grgsm_livemon is running is that its parsing the data stream from the gsm network, 
 and slicing it up in UDP packets which it sends out on the localhost port 4729. This is the default ports, 
 it can be quite easily changed to whatever is needed. For example when an master-agent setup has been created.
 
@@ -286,7 +305,7 @@ I'm still generally new to the GSM protocols. I have been trying to find some ne
 but nothing has really been available..
 
 So instead of rolling my own decoder from scratch i've instead been looking two projects, one which everyone already has been using,
-and one which everyone who just wants to capture trackingdata fast has been using.
+and one which everyone who just wants to capture tracking data fast has been using.
 
 First tool is no other than `Wireshark`. Which ships with a GSMTAP dissector that works perfectly out of the box.
 Just start Wireshark and make it listen to for example the Loopback device and you will see data immediately.
@@ -295,11 +314,12 @@ From where we could make our own tool maybe using something like PyShark and wra
 At this point in time i opted for using the tool created by *Oros42* and *petterreinholdtsen*.
 
 You can find it here: https://github.com/Oros42/IMSI-catcher  
-Its supereasy to use, all you need to do is let `grgsm_livemon` run and start the simple_IMSI-cather.py script.
+Its super easy to use, all you need to do is let `grgsm_livemon` run and start the simple_IMSI-cather.py script.
 What is does is parse all the different kinds of packets which livemon passes to it. From there it tries to parse our either the TMSI or IMSI values.
 It can from there save the data in a sqlite database for further aggregation of the data.
 
-```
+{{< highlight sh >}}
+
 [n@mamluk IMSI-catcher]$ python simple_IMSI-catcher.py  --help
 Usage: simple_IMSI-catcher.py: [options]
 
@@ -315,7 +335,8 @@ Options:
                         (require root/suid access)
   -w SQLITE, --sqlite=SQLITE
                         Save observed IMSI values to specified SQLite file
-```
+{{< / highlight >}}
+
 
 ## TMSI? IMSI?
 IMSI stands for *International mobile subscriber identity* and TMSI is *Temporary Mobile Subscriber Identity*  
@@ -330,7 +351,8 @@ So this is what Oros42's tool does. It simply captures the IMSI, TMSI-1 and TMSI
 
 # The result and conclusion
 
-```
+{{< highlight sh >}}
+
 Nb IMSI ; TMSI-1     ; TMSI-2     ; IMSI              ; country      ; brand      ; operator              ; MCC  ; MNC   ; LAC    ; CellId
 1       ;            ;            ; 242 14 0XXXXXXXX4 ; Norway       ; ICE        ; ICE Communication Norg; 242  ; 02    ; 3804   ; 51132 
 2       ;            ;            ; 242 02 9XXXXXXXX5 ; Norway       ; Telia      ; TeliaSonera Norge AS  ; 242  ; 02    ; 3804   ; 51133 
@@ -371,7 +393,8 @@ Nb IMSI ; TMSI-1     ; TMSI-2     ; IMSI              ; country      ; brand    
 32      ;            ;            ; 242 02 9XXXXXXXX3 ; Norway       ; Telia      ; TeliaSonera Norge AS  ; 242  ; 02    ; 3804   ; 51133 
         ; 0x690d2ac4 ;            ; 242 23 2XXXXXXXX7 ; Norway       ; Lycamobile ; Lyca Mobile Ltd       ; 242  ; 02    ; 3804   ; 51133 
         ; 0xe1381f3d ;            ; 242 23 2XXXXXXXX1 ; Norway       ; Lycamobile ; Lyca Mobile Ltd       ; 242  ; 02    ; 3804   ; 51133 
-```
+{{< / highlight >}}
+
 
 As you can see its rather easily to capture IMSI data from clients. The script which is used can quite easily be extended 
 to save more precise timestamps, jump between different channels, and actually anonymize the data!
