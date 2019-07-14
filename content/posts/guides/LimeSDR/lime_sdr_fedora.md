@@ -233,7 +233,6 @@ For some reason not explored it supports the Lime already...
 It works as follows:
 
 {{< highlight sh >}}
-
 [n@mamluk hugo]$ grgsm_scanner --help
 Usage: grgsm_scanner: [options]
 
@@ -258,7 +257,6 @@ Options:
 And a sample of its output:
 
 {{< highlight sh >}}
-
 [n@mamluk hugo]$ grgsm_scanner -b GSM900
 
 ARFCN:    2, Freq:  935.4M, CID: 55181, LAC:  3804, MCC: 242, MNC:   2, Pwr: -71
@@ -319,7 +317,6 @@ What is does is parse all the different kinds of packets which livemon passes to
 It can from there save the data in a sqlite database for further aggregation of the data.
 
 {{< highlight sh >}}
-
 [n@mamluk IMSI-catcher]$ python simple_IMSI-catcher.py  --help
 Usage: simple_IMSI-catcher.py: [options]
 
@@ -402,7 +399,7 @@ The capture shown here was over the span of half an hour in a central location i
 While looking over these results it dawned on me one of the biggest problems with this kind of solution. 
 How to i anonymize the data from everyone including me? I guess i can generate som key in RAM which changes with each boot
 of the device i run the software on, but i do not really know if that is enough. I own the device, and as such. How do i make a system does not allow me to find the original?
-For example some normal hashing would not suffice in my eyes. Since the search space is so small. Maybe some bcrypt mumbo jumbo with a giant salt would be okay?
+For example some normal hashing would not suffice in my eyes. Since the search space is so small. Maybe some bcrypt shenanigans with a giant salt would be okay?
 
 
 
