@@ -29,3 +29,7 @@ pre code {
   overflow-wrap: normal;
   white-space: pre;
 }
+
+.commento-root .commento-anonymous-checkbox-container input[type="checkbox"] + label {
+  color: #dee2e6;
+}
