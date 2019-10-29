@@ -16,11 +16,13 @@ enableEmoji = false  # Shorthand emojis in content files - https://gohugo.io/fun
   name = "Nikolas Papaioannou"
 
 [blackfriday]
-  hrefTargetBlank = true
+    hrefTargetBlank = true
+    # noreferrerLinks = true
+    # nofollowLinks = true
 
 [taxonomies]
   tag = "tags"
-  category = ""  # Categories are disabled by default.
+  # category = ""  # Categories are disabled by default.
 
 [params]
   dateform        = "Jan 2, 2006"
