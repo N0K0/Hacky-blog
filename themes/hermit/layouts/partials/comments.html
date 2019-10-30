@@ -1,0 +1,9 @@
+<div class="thin" id="commento"></div>
+<script defer
+				src="https://cdn.commento.io/js/commento.js"
+        {{ $style := resources.Get "scss/commento.scss" | resources.ExecuteAsTemplate "css/commento_extra.css" . | toCSS | minify | fingerprint -}}
+				data-css-override="{{$style.RelPermalink}}"
+				data-auto-init="true">
+</script>
+
+<noscript>Please enable JavaScript to view the comments </noscript>
