@@ -16,17 +16,25 @@ const throttle = (callback, limit) => {
   };
 };
 
+// addEventListener Helper
+//
+const listen = (ele, e, callback) => {
+  if (document.querySelector(ele) !== null) {
+    document.querySelector(ele).addEventListener(e, callback);
+  }
+}
+
 /**
  * Functions
  */
 
 // Auto Hide Header
 //
-let lastScrollPosition = window.pageYOffset;
 let header = document.getElementById('site-header');
+let lastScrollPosition = window.pageYOffset;
 
 const autoHideHeader = () => {
-  let currentScrollPosition = window.pageYOffset;
+  let currentScrollPosition = Math.max(window.pageYOffset, 0);
   if (currentScrollPosition > lastScrollPosition) {
     header.classList.remove('slideInUp');
     header.classList.add('slideOutDown');
@@ -39,10 +47,10 @@ const autoHideHeader = () => {
 
 // Mobile Menu Toggle
 //
-let mobileMenu = document.getElementById('mobile-menu');
 let mobileMenuVisible = false;
 
-const mobileMenuToggle = () => {
+const toggleMobileMenu = () => {
+  let mobileMenu = document.getElementById('mobile-menu');
   if (mobileMenuVisible == false) {
     mobileMenu.style.animationName = 'bounceInRight';
     mobileMenu.style.webkitAnimationName = 'bounceInRight';
@@ -55,24 +63,40 @@ const mobileMenuToggle = () => {
   }
 }
 
-// Show Featured Image
+// Featured Image Toggle
 //
-const showFeaturedImg = () => {
-  document.getElementById('bg-img').classList.add('show-bg-img');
+const showImg = () => {
+  document.querySelector('.bg-img').classList.add('show-bg-img');
 }
 
-const showContent = () => {
-  document.getElementById('bg-img').classList.remove('show-bg-img');
+const hideImg = () => {
+  document.querySelector('.bg-img').classList.remove('show-bg-img');
 }
 
-if (haveHeader == true) {
-  document.getElementById('menu-btn').addEventListener('click', mobileMenuToggle);
-  
+// ToC Toggle
+//
+const toggleToc = () => {
+  document.getElementById('toc').classList.toggle('show-toc');
+}
+
+
+if (header !== null) {
+  listen('#menu-btn', "click", toggleMobileMenu);
+  listen('#toc-btn', "click", toggleToc);
+  listen('#img-btn', "click", showImg);
+  listen('.bg-img', "click", hideImg);
+
+  document.querySelectorAll('.post-year').forEach((ele)=> {
+    ele.addEventListener('click', () => {
+      window.location.hash = '#' + ele.id;
+    });
+  });
+
   window.addEventListener('scroll', throttle(() => {
     autoHideHeader();
-    
+
     if (mobileMenuVisible == true) {
-      mobileMenuToggle();
+      toggleMobileMenu();
     }
   }, 250));
 }

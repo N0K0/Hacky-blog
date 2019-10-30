@@ -3,7 +3,7 @@
 {{ end }}
 
 {{ define "main" }}
-	<main class="site-main section-inner thin  animated fadeIn faster">
+	<main class="site-main section-inner thin animated fadeIn faster">
 		<h1>{{ .Title }}</h1>
 		{{- if .Content }}
 		<div class="content">
@@ -12,7 +12,7 @@
 		{{- end }}
 		{{- range .Data.Pages.GroupByDate "2006" }}
 		<div class="posts-group">
-			<div class="post-year">{{ .Key }}</div>
+			<div class="post-year" id="{{ .Key }}">{{ .Key }}</div>
 			<ul class="posts-list">
 				{{- range .Pages }}
 				<li class="post-item">
@@ -30,5 +30,4 @@
 
 {{ define "footer" }}
 {{ partialCached "footer.html" . }}
-	<script>let haveHeader = true;</script>
 {{ end }}
