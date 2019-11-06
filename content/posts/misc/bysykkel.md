@@ -210,8 +210,10 @@ Sent from ProtonMail mobile
 Urban Infrastructure know that the underlying technology for identifying the bikes are not able to guarantee any sort of authenticity. 
 I'm not sure if they simply inherited the racks from ShareBike, or if they bought it from them. I never got around to actually ask them.....
 Personally i think its sort of brain dead that we live in a time where we go for the tags that is mainly used for books, packages and long range scannables for something that should work on a basis of authenticity.
-Even if someone were to not actually steal the bikes this would open up for the possibility of going over the normal rental time of one hour. Which could lead to worsen the shortage of bikes outside of Oslo central.
+Even if someone were to not actually steal the bikes this would open up for the possibility of going over the normal rental time of one hour (what is stealing vs extended illicit borrowing really?). Which could lead to worsen the shortage of bikes outside of Oslo central.
 
 As for the possibility of DoSing the racks, i have not researched how the racks reacts to invalid UIDs, multiple UIDs in the same lock or the same UID on multiple locks.
 Would it be possible to fill a rack with spoofed bikes so that users will seek an empty rack looking for bikes?
 Or maybe the inverted case that users will take a detour since they believed that the rack closest to their destination is full.
+
+Hope this would be more juicy, but not really all that much fun to pull out of this case. Maybe their app has some fun.
