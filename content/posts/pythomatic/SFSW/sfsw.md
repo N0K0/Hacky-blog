@@ -30,6 +30,12 @@ If you are intrested in poking in the script it's hosted over [in the pytomatic 
 )
 
 After finishing up the script in AutoIT3 i figured this ought to be possible to do with Python!
-What i found for the job was the PyAutoGUI framework, which is supernice but with one big flaw i can't look past.
+What i found for the job was the PyAutoGUI framework, which is super nice but with one big flaw i can't look past.
 Namely that you have to use the API which moves the mouse on the screen. Effectively locking usage of the computer to the application your are automating.
 Personally i try to use the Windows message API to send mouse events directly to applications so that i can still use the real mouse for whatever i feel like.
+
+Here is an example of PyAutoGUI by [u/AirHamyes](https://www.reddit.com/user/AirHamyes/)
+<video controls width="100%"><source src="/Pytomatic/AirHamyes_paint.mp4" type="video/mp4"></video>
+
+Note how the mouse pointer is bouncing around among all the different colors. This locks the mouse to the Paint app. Which is lame and can be avoided.
+
