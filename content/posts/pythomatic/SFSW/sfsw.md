@@ -36,7 +36,7 @@ Personally i try to use the Windows message API to send mouse events directly to
 Here is an example of PyAutoGUI by [u/AirHamyes](https://www.reddit.com/user/AirHamyes/)
 <video controls width="100%"><source src="/Pytomatic/AirHamyes_paint.mp4" type="video/mp4"></video>
 
-Note how the mouse pointer is bouncing around among all the different colors. This locks the mouse to the Paint app. Which is lame and can be avoided.
+Note how the mouse pointer is bouncing around among all the different colors in the palette. This locks the mouse to the Paint app. Which is lame and can be avoided.
 
 Other than that i also had issues finding any good modules for image analysis and the likes, so overall creating my own thing seemed like the only sane thing to do!
 
@@ -130,6 +130,108 @@ The ```getRedPos()``` is quite big but i can sum it up with that we are fetching
 
 As for the switch case at [line 158](https://github.com/N0K0/pytomatic/blob/master/samples/BF4/_old_autoit3/BF%20commander.au3#L157-L166). 
 The reason we are using this sort of setup is because the pixel searcher function in AutoIT3 scans one line at the time. 
-The default is left to right, top to bottom. This can be changed by swapping the X and Y params, which is what happens in the switch.
-It's not perfect  but it works. An other issue with AutoIT3 is that the PixelSearch method returns the first pixel, without any possibility for filtering on size or returning multiple "spots" with one run over the screen.
-The rest of the ```getRedPos()``` is simply a fallback if we are unable to find the color, so we end up using an avarage of earlier found points
+The default is left to right, top to bottom. This can be changed by swapping the X and Y params, which is what happens in the switch case.
+It's not perfect but it works. An other issue with AutoIT3 is that the PixelSearch method returns the first pixel, without any possibility for filtering on size or returning multiple "spots" with one run over the screen.
+The rest of the ```getRedPos()``` is simply a fallback if we are unable to find the color, so we end up using an average of earlier found points.
+
+
+So to sum it up, the minimum needs i got is
+
+1. Some way to find windows
+2. Some way to manipulate the positions/state of windows
+3. The ability to search for colors/features in images
+4. Sending Mouse commands 
+
+# Introducing Pytomatic
+
+The end result is the framework i have been working on for quite some time. It needs a complete rewrite,  but i have not been not motivated/distracted/"other excuse"..
+Instead of looking at the negative, let us look a bit on what is implemented!
+
+
+The structure is as follows:
+
+{{< highlight vbs >}}
+
+C:.
+│   config.ini
+│   __init__.py
+│
+├───actions                     <-- The working stuff
+│   │   Helpers.py
+│   │   MouseMovement.py
+│   │   PixelSearch.py
+│   │   README.md
+│   │   Recorder.py
+│   │   WindowHandlers.py
+│   │   __init__.py
+│
+├───beta_tools                  <-- The really not working stuff
+│       README.md
+│       sample_collector.py
+│       shelly.py
+│
+├───learning                    <-- Me trying to learn about ML and generally failing
+│   │   readme.MD
+│   │   __init__.py
+│   │
+│   ├───experimental and WIP
+│   │   │   __init__.py
+│   │   │
+│   │   └───haar_learning
+│   │           createsample.pl
+│   │           create_sample.py
+│   │           haar_training.py
+│   │           mergevec.py
+│   │           __init__.py
+│   │
+│   └───images
+│           llama.png
+│
+└───tests                       <-- To show employers i can write tests when i want to
+    │   tests.py
+    │
+    └───assets
+            calc_8.PNG
+            calc_clean.PNG
+
+{{< / highlight >}}
+
+
+Lets ignore everything outside of the ```actions``` folder because that the working stuff.
+I have been trying to separate the functions of the different modules in a semi reasonable way, 
+but i know there are some common functions that should be moved out for example.
+
+One of the main thoughts i had when i started writing this framework was that i should not really need to pass implicit 
+variables like which window handle and what size the different parts of the windows has and such to functions.
+Lets examine the setup a bit and make a choice together if i need a refactoring!
+
+## The interconnects and other (tentatively) good ideas
+
+The easiest way to start off would probably be to emulate the ms paint example over.
+All we need to create a dumbed down copy is the ability to control windows and to send mouse events.
+
+
+{{< highlight python >}}
+from pytomatic.actions import PixelSearch, WindowHandlers, Helpers, MouseMovement
+import logging
+logging.basicConfig(level=logging.DEBUG)
+
+
+if __name__ == '__main__':
+    # Setting up the basics of the framework
+    wh = WindowHandlers.WinHandler(class_name="MSPaintApp")
+    ps = PixelSearch.PixelSearch(wh)
+    mm = MouseMovement.MouseMovement(wh)
+
+
+{{< / highlight >}}
+
+
+
+## A close look at the modules
+
+### Mouse
+#### Sending mouse events
+### Pixel Search
+### Window handlers
+#### Fetching the correct window
